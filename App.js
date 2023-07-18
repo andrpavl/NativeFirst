@@ -7,14 +7,14 @@ export default function App() {
 		<ImageBackground
 			source={require("./pics/PhotoBG.jpg")}
 			style={styles.imageBackground}>
-			<RegistrationScreen/>
+			<RegistrationScreen />
 		</ImageBackground>
 	);
 }
 
 const styles = StyleSheet.create({
-  imageBackground: {
-    flex:1,
+	imageBackground: {
+		flex: 1,
 		resizeMode: "cover",
 		justifyContent: "center",
 		alignItems: "center",
