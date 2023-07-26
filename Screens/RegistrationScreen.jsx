@@ -3,7 +3,6 @@ import {
 	Text,
 	StyleSheet,
 	TouchableOpacity,
-	Button,
 	Image,
 } from "react-native";
 import React from "react";
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		fontWeight: 500,
 		marginBottom: 32,
-		marginTop: 16,
+		marginTop: -32,
 	},
 	container: {
 		flex: 1,
@@ -59,7 +58,8 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		justifyContent: "flex-end",
 		bottom: 0,
-		left: -196
+		alignSelf: 'center'
+	
 	},
 	inputs: {
 		width: "100%",
