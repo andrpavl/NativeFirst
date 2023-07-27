@@ -4,35 +4,50 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	Image,
+	KeyboardAvoidingView,
 } from "react-native";
 import React from "react";
 import { TextInput } from "react-native";
 
 const RegistrationScreen = () => {
 	return (
-		<View style={styles.container}>
-			<View style={styles.regForm}>
-				<View style={styles.avatar}>
-					<TouchableOpacity style={styles.addPhoto}>
-						<Image
-							source={require("../pics/add.png")}
-							style={styles.addPhoto}
+		<KeyboardAvoidingView
+			behavior={Platform.OS === "ios" ? "padding" : "height"}
+			style={{ flex: 1, width: "100%" }}>
+			<View style={styles.container}>
+				<View style={styles.regForm}>
+					<View style={styles.avatar}>
+						<TouchableOpacity style={styles.addPhoto}>
+							<Image
+								source={require("../pics/add.png")}
+								style={styles.addPhoto}
+							/>
+						</TouchableOpacity>
+					</View>
+					<Text style={styles.title}>Реєстрація</Text>
+					<TextInput style={styles.inputs} placeholder="Логін" />
+					<TextInput
+						style={styles.inputs}
+						placeholder="Адреса електронної пошти"
+					/>
+					<View style={{ width: "100%" }}>
+						<TextInput
+							style={styles.inputs}
+							placeholder="Пароль"
+							secureTextEntry
 						/>
+						<TouchableOpacity
+							style={{ position: "absolute", top: 16, right: 16 }}>
+							<Text style={{ color: "#1B4371" }}>Показати</Text>
+						</TouchableOpacity>
+					</View>
+					<TouchableOpacity style={styles.registerBtn}>
+						<Text style={styles.btnText}>Зареєструватися</Text>
 					</TouchableOpacity>
+					<Text style={styles.haveAcc}>Вже є акаунт? Увійти</Text>
 				</View>
-				<Text style={styles.title}>Реєстрація</Text>
-				<TextInput style={styles.inputs} placeholder="Логін" />
-				<TextInput
-					style={styles.inputs}
-					placeholder="Адреса електронної пошти"
-				/>
-				<TextInput style={styles.inputs} placeholder="Пароль" />
-				<TouchableOpacity style={styles.registerBtn}>
-					<Text style={styles.btnText}>Зареєструватися</Text>
-				</TouchableOpacity>
-				<Text style={styles.haveAcc}>Вже є акаунт? Увійти</Text>
 			</View>
-		</View>
+		</KeyboardAvoidingView>
 	);
 };
 
@@ -58,8 +73,7 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		justifyContent: "flex-end",
 		bottom: 0,
-		alignSelf: 'center'
-	
+		alignSelf: "center",
 	},
 	inputs: {
 		width: "100%",
@@ -79,7 +93,7 @@ const styles = StyleSheet.create({
 		borderRadius: 16,
 		transform: [{ translateX: -50 }],
 		transform: [{ translateY: -50 }],
-		position: "relative"
+		position: "relative",
 	},
 	addPhoto: {
 		justifyContent: "center",

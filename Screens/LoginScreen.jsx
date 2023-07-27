@@ -1,21 +1,42 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+	KeyboardAvoidingView,
+	StyleSheet,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from "react-native";
 
 const LoginScreen = () => {
 	return (
-		<View style={{ flex: 1 }}>
-			<View style={styles.logInForm}>
-				<Text style={styles.title}>Увійти</Text>
-				<TextInput
-					style={styles.inputs}
-					placeholder="Адреса електронної пошти"
-				/>
-				<TextInput style={styles.inputs} placeholder="Пароль" />
-				<TouchableOpacity style={styles.registerBtn}>
-					<Text style={styles.btnText}>Увійти</Text>
-				</TouchableOpacity>
-				<Text style={styles.haveAcc}>Немає акаунту? Зареєструватися</Text>
+		<KeyboardAvoidingView
+			behavior={Platform.OS === "ios" ? "padding" : "height"}
+			style={{ flex: 1, width: "100%" }}>
+			<View style={{ flex: 1 }}>
+				<View style={styles.logInForm}>
+					<Text style={styles.title}>Увійти</Text>
+					<TextInput
+						style={styles.inputs}
+						placeholder="Адреса електронної пошти"
+					/>
+					<View style={{ width: "100%" }}>
+						<TextInput
+							style={styles.inputs}
+							placeholder="Пароль"
+							secureTextEntry
+						/>
+						<TouchableOpacity
+							style={{ position: "absolute", top: 16, right: 16 }}>
+							<Text style={{ color: "#1B4371" }}>Показати</Text>
+						</TouchableOpacity>
+					</View>
+					<TouchableOpacity style={styles.registerBtn}>
+						<Text style={styles.btnText}>Увійти</Text>
+					</TouchableOpacity>
+					<Text style={styles.haveAcc}>Немає акаунту? Зареєструватися</Text>
+				</View>
 			</View>
-		</View>
+		</KeyboardAvoidingView>
 	);
 };
 
@@ -58,8 +79,8 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 32,
 		paddingVertical: 16,
 		borderRadius: 25,
-        marginBottom: 16,
-        marginTop: 27
+		marginBottom: 16,
+		marginTop: 27,
 	},
 	btnText: {
 		textAlign: "center",
