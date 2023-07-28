@@ -1,42 +1,84 @@
+import { useState } from "react";
 import {
+	Keyboard,
 	KeyboardAvoidingView,
 	StyleSheet,
 	Text,
 	TextInput,
 	TouchableOpacity,
+	TouchableWithoutFeedback,
 	View,
 } from "react-native";
 
 const LoginScreen = () => {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [isKeyboardShown, setIsKeyboardShown] = useState(false);
+	const [isSecureTextEntry, setIsSecureTextEntry] = useState(true);
+
+	const onLogin = () => {
+		console.log(email, password);
+	};
+
+	const toggleSecurityText = () => {
+		setIsSecureTextEntry(!isSecureTextEntry);
+	};
+
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
-			style={{ flex: 1, width: "100%" }}>
-			<View style={{ flex: 1 }}>
-				<View style={styles.logInForm}>
-					<Text style={styles.title}>Увійти</Text>
-					<TextInput
-						style={styles.inputs}
-						placeholder="Адреса електронної пошти"
-					/>
-					<View style={{ width: "100%" }}>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+			<KeyboardAvoidingView
+				behavior={Platform.OS === "ios" ? "padding" : "height"}
+				style={{ flex: 1, width: "100%" }}>
+				<View style={{ flex: 1 }}>
+					<View
+						style={{
+							...styles.logInForm,
+							paddingBottom: isKeyboardShown ? 32 : 145,
+							height: isKeyboardShown ? 275 : "auto",
+						}}>
+						<Text style={styles.title}>Увійти</Text>
 						<TextInput
 							style={styles.inputs}
-							placeholder="Пароль"
-							secureTextEntry
+							placeholder="Адреса електронної пошти"
+							value={email}
+							onChangeText={setEmail}
+							onFocus={() => {
+								setIsKeyboardShown(true);
+							}}
+							onBlur={() => setIsKeyboardShown(false)}
 						/>
-						<TouchableOpacity
-							style={{ position: "absolute", top: 16, right: 16 }}>
-							<Text style={{ color: "#1B4371" }}>Показати</Text>
-						</TouchableOpacity>
+						<View style={{ width: "100%" }}>
+							<TextInput
+								style={styles.inputs}
+								placeholder="Пароль"
+								secureTextEntry={isSecureTextEntry}
+								value={password}
+								onChangeText={setPassword}
+								onFocus={() => {
+									setIsKeyboardShown(true);
+								}}
+								onBlur={() => setIsKeyboardShown(false)}
+							/>
+							<TouchableOpacity
+								style={{ position: "absolute", top: 16, right: 16 }}
+								onPress={toggleSecurityText}>
+								<Text style={{ color: "#1B4371" }}>
+									{isSecureTextEntry ? "Показати" : "Приховати"}
+								</Text>
+							</TouchableOpacity>
+						</View>
+						{!isKeyboardShown && (
+							<TouchableOpacity style={styles.registerBtn} onPress={onLogin}>
+								<Text style={styles.btnText}>Увійти</Text>
+							</TouchableOpacity>
+						)}
+						{!isKeyboardShown && (
+							<Text style={styles.haveAcc}>Немає акаунту? Зареєструватися</Text>
+						)}
 					</View>
-					<TouchableOpacity style={styles.registerBtn}>
-						<Text style={styles.btnText}>Увійти</Text>
-					</TouchableOpacity>
-					<Text style={styles.haveAcc}>Немає акаунту? Зареєструватися</Text>
 				</View>
-			</View>
-		</KeyboardAvoidingView>
+			</KeyboardAvoidingView>
+		</TouchableWithoutFeedback>
 	);
 };
 
@@ -93,7 +135,6 @@ const styles = StyleSheet.create({
 		fontWeight: 400,
 		lineHeight: 18.75,
 		color: "#1B4371",
-		marginBottom: 145,
 	},
 });
 

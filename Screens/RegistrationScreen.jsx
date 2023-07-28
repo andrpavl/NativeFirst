@@ -5,49 +5,100 @@ import {
 	TouchableOpacity,
 	Image,
 	KeyboardAvoidingView,
+	TouchableWithoutFeedback,
+	Keyboard,
 } from "react-native";
-import React from "react";
+import { useState } from "react";
 import { TextInput } from "react-native";
 
 const RegistrationScreen = () => {
+	const [login, setLogin] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [isKeyboardShown, setIsKeyboardShown] = useState(false);
+	const [isSecureTextEntry, setIsSecureTextEntry] = useState(true);
+
+	const onRegistr = () => {
+		console.log(login, email, password);
+	};
+
+	 const toggleSecurityText = () => {
+		setIsSecureTextEntry(!isSecureTextEntry);
+	};
+
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
-			style={{ flex: 1, width: "100%" }}>
-			<View style={styles.container}>
-				<View style={styles.regForm}>
-					<View style={styles.avatar}>
-						<TouchableOpacity style={styles.addPhoto}>
-							<Image
-								source={require("../pics/add.png")}
-								style={styles.addPhoto}
-							/>
-						</TouchableOpacity>
-					</View>
-					<Text style={styles.title}>Реєстрація</Text>
-					<TextInput style={styles.inputs} placeholder="Логін" />
-					<TextInput
-						style={styles.inputs}
-						placeholder="Адреса електронної пошти"
-					/>
-					<View style={{ width: "100%" }}>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+			<KeyboardAvoidingView
+				behavior={Platform.OS === "ios" ? "padding" : "height"}
+				style={{ flex: 1, width: "100%" }}>
+				<View style={styles.container}>
+					<View
+						style={{
+							...styles.regForm,
+							paddingBottom: isKeyboardShown ? 32 : 79,
+							height: isKeyboardShown ? 375 : "auto",
+						}}>
+						<View style={styles.avatar}>
+							<TouchableOpacity style={styles.addPhoto}>
+								<Image
+									source={require("../pics/add.png")}
+									style={styles.addPhoto}
+								/>
+							</TouchableOpacity>
+						</View>
+						<Text style={styles.title}>Реєстрація</Text>
 						<TextInput
 							style={styles.inputs}
-							placeholder="Пароль"
-							secureTextEntry
+							placeholder="Логін"
+							value={login}
+							onChangeText={setLogin}
+							onFocus={() => {
+								setIsKeyboardShown(true);
+							}}
+							onBlur={() => setIsKeyboardShown(false)}
 						/>
-						<TouchableOpacity
-							style={{ position: "absolute", top: 16, right: 16 }}>
-							<Text style={{ color: "#1B4371" }}>Показати</Text>
-						</TouchableOpacity>
+						<TextInput
+							style={styles.inputs}
+							placeholder="Адреса електронної пошти"
+							value={email}
+							onChangeText={setEmail}
+							onFocus={() => {
+								setIsKeyboardShown(true);
+							}}
+							onBlur={() => setIsKeyboardShown(false)}
+						/>
+						<View style={{ width: "100%" }}>
+							<TextInput
+								style={styles.inputs}
+								placeholder="Пароль"
+								secureTextEntry={isSecureTextEntry}
+								value={password}
+								onChangeText={setPassword}
+								onFocus={() => {
+									setIsKeyboardShown(true);
+								}}
+								onBlur={() => setIsKeyboardShown(false)}
+							/>
+							<TouchableOpacity
+								style={{ position: "absolute", top: 16, right: 16 }}
+								onPress={toggleSecurityText}>
+								<Text style={{ color: "#1B4371" }}>
+									{isSecureTextEntry ? "Показати" : "Приховати"}
+								</Text>
+							</TouchableOpacity>
+						</View>
+						{!isKeyboardShown && (
+							<TouchableOpacity style={styles.registerBtn} onPress={onRegistr}>
+								<Text style={styles.btnText}>Зареєструватися</Text>
+							</TouchableOpacity>
+						)}
+						{!isKeyboardShown && (
+							<Text style={styles.haveAcc}>Вже є акаунт? Увійти</Text>
+						)}
 					</View>
-					<TouchableOpacity style={styles.registerBtn}>
-						<Text style={styles.btnText}>Зареєструватися</Text>
-					</TouchableOpacity>
-					<Text style={styles.haveAcc}>Вже є акаунт? Увійти</Text>
 				</View>
-			</View>
-		</KeyboardAvoidingView>
+			</KeyboardAvoidingView>
+		</TouchableWithoutFeedback>
 	);
 };
 
@@ -125,7 +176,6 @@ const styles = StyleSheet.create({
 		fontWeight: 400,
 		lineHeight: 18.75,
 		color: "#1B4371",
-		marginBottom: 79,
 	},
 });
 
