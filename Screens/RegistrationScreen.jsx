@@ -22,9 +22,17 @@ const RegistrationScreen = () => {
 		console.log(login, email, password);
 	};
 
-	 const toggleSecurityText = () => {
+	const toggleSecurityText = () => {
 		setIsSecureTextEntry(!isSecureTextEntry);
 	};
+
+	const handleFocus = () => {
+		setIsKeyboardShown(true);
+	};
+
+	const handleBlur = () => {
+		setIsKeyboardShown(false);
+	}
 
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -52,20 +60,16 @@ const RegistrationScreen = () => {
 							placeholder="Логін"
 							value={login}
 							onChangeText={setLogin}
-							onFocus={() => {
-								setIsKeyboardShown(true);
-							}}
-							onBlur={() => setIsKeyboardShown(false)}
+							onFocus={handleFocus}
+							onBlur={handleBlur}
 						/>
 						<TextInput
 							style={styles.inputs}
 							placeholder="Адреса електронної пошти"
 							value={email}
 							onChangeText={setEmail}
-							onFocus={() => {
-								setIsKeyboardShown(true);
-							}}
-							onBlur={() => setIsKeyboardShown(false)}
+							onFocus={handleFocus}
+							onBlur={handleBlur}
 						/>
 						<View style={{ width: "100%" }}>
 							<TextInput
@@ -74,10 +78,8 @@ const RegistrationScreen = () => {
 								secureTextEntry={isSecureTextEntry}
 								value={password}
 								onChangeText={setPassword}
-								onFocus={() => {
-									setIsKeyboardShown(true);
-								}}
-								onBlur={() => setIsKeyboardShown(false)}
+								onFocus={handleFocus}
+								onBlur={handleBlur}
 							/>
 							<TouchableOpacity
 								style={{ position: "absolute", top: 16, right: 16 }}

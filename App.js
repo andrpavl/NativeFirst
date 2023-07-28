@@ -8,8 +8,8 @@ export default function App() {
 		<ImageBackground
 			source={require("./pics/PhotoBG.jpg")}
 			style={styles.imageBackground}>
-			<RegistrationScreen />
-			{/* <LoginScreen/> */}
+			{/* <RegistrationScreen /> */}
+			<LoginScreen/>
 		</ImageBackground>
 	);
 }

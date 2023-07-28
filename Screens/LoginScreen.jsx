@@ -24,6 +24,14 @@ const LoginScreen = () => {
 		setIsSecureTextEntry(!isSecureTextEntry);
 	};
 
+	const handleFocus = () => {
+		setIsKeyboardShown(true);
+	};
+
+	const handleBlur = () => {
+		setIsKeyboardShown(false);
+	};
+
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 			<KeyboardAvoidingView
@@ -42,10 +50,8 @@ const LoginScreen = () => {
 							placeholder="Адреса електронної пошти"
 							value={email}
 							onChangeText={setEmail}
-							onFocus={() => {
-								setIsKeyboardShown(true);
-							}}
-							onBlur={() => setIsKeyboardShown(false)}
+							onFocus={handleFocus}
+							onBlur={handleBlur}
 						/>
 						<View style={{ width: "100%" }}>
 							<TextInput
@@ -54,10 +60,8 @@ const LoginScreen = () => {
 								secureTextEntry={isSecureTextEntry}
 								value={password}
 								onChangeText={setPassword}
-								onFocus={() => {
-									setIsKeyboardShown(true);
-								}}
-								onBlur={() => setIsKeyboardShown(false)}
+								onFocus={handleFocus}
+								onBlur={handleBlur}
 							/>
 							<TouchableOpacity
 								style={{ position: "absolute", top: 16, right: 16 }}
