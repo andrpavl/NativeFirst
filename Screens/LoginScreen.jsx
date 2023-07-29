@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+	ImageBackground,
 	Keyboard,
 	KeyboardAvoidingView,
 	StyleSheet,
@@ -10,7 +11,7 @@ import {
 	View,
 } from "react-native";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [isKeyboardShown, setIsKeyboardShown] = useState(false);
@@ -37,56 +38,80 @@ const LoginScreen = () => {
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
 				style={{ flex: 1, width: "100%" }}>
-				<View style={{ flex: 1 }}>
-					<View
-						style={{
-							...styles.logInForm,
-							paddingBottom: isKeyboardShown ? 32 : 145,
-							height: isKeyboardShown ? 275 : "auto",
-						}}>
-						<Text style={styles.title}>Увійти</Text>
-						<TextInput
-							style={styles.inputs}
-							placeholder="Адреса електронної пошти"
-							value={email}
-							onChangeText={setEmail}
-							onFocus={handleFocus}
-							onBlur={handleBlur}
-						/>
-						<View style={{ width: "100%" }}>
+				<ImageBackground
+					source={require("../pics/PhotoBG.jpg")}
+					style={styles.imageBackground}>
+					<View style={{ flex: 1 }}>
+						<View
+							style={{
+								...styles.logInForm,
+								paddingBottom: isKeyboardShown ? 32 : 145,
+								height: isKeyboardShown ? 275 : "auto",
+							}}>
+							<Text style={styles.title}>Увійти</Text>
 							<TextInput
 								style={styles.inputs}
-								placeholder="Пароль"
-								secureTextEntry={isSecureTextEntry}
-								value={password}
-								onChangeText={setPassword}
+								placeholder="Адреса електронної пошти"
+								value={email}
+								onChangeText={setEmail}
 								onFocus={handleFocus}
 								onBlur={handleBlur}
 							/>
-							<TouchableOpacity
-								style={{ position: "absolute", top: 16, right: 16 }}
-								onPress={toggleSecurityText}>
-								<Text style={{ color: "#1B4371" }}>
-									{isSecureTextEntry ? "Показати" : "Приховати"}
+							<View style={{ width: "100%" }}>
+								<TextInput
+									style={styles.inputs}
+									placeholder="Пароль"
+									secureTextEntry={isSecureTextEntry}
+									value={password}
+									onChangeText={setPassword}
+									onFocus={handleFocus}
+									onBlur={handleBlur}
+								/>
+								<TouchableOpacity
+									style={{ position: "absolute", top: 16, right: 16 }}
+									onPress={toggleSecurityText}>
+									<Text style={{ color: "#1B4371" }}>
+										{isSecureTextEntry ? "Показати" : "Приховати"}
+									</Text>
+								</TouchableOpacity>
+							</View>
+							{!isKeyboardShown && (
+								<TouchableOpacity style={styles.registerBtn} onPress={onLogin}>
+									<Text style={styles.btnText}>Увійти</Text>
+								</TouchableOpacity>
+							)}
+							{!isKeyboardShown && (
+								<Text style={styles.haveAcc}>
+									Немає акаунту?
+									<TouchableOpacity
+										onPress={() => navigation.navigate("Registration")}>
+										<Text
+											style={{
+												...styles.haveAcc,
+												textDecorationLine: "underline",
+												marginTop: 3,
+											}}>
+											{" "}
+											Зареєструватися
+										</Text>
+									</TouchableOpacity>
 								</Text>
-							</TouchableOpacity>
+							)}
 						</View>
-						{!isKeyboardShown && (
-							<TouchableOpacity style={styles.registerBtn} onPress={onLogin}>
-								<Text style={styles.btnText}>Увійти</Text>
-							</TouchableOpacity>
-						)}
-						{!isKeyboardShown && (
-							<Text style={styles.haveAcc}>Немає акаунту? Зареєструватися</Text>
-						)}
 					</View>
-				</View>
+				</ImageBackground>
 			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>
 	);
 };
 
 const styles = StyleSheet.create({
+	imageBackground: {
+		flex: 1,
+		resizeMode: "cover",
+		justifyContent: "center",
+		alignItems: "center",
+	},
 	logInForm: {
 		backgroundColor: "#FFFFFF",
 		width: "100%",

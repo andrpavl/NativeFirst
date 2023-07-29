@@ -1,24 +1,28 @@
 import React from "react";
-import { ImageBackground, StyleSheet, Text } from "react-native";
+import "react-native-gesture-handler";
+import { StyleSheet, Text } from "react-native";
 import RegistrationScreen from "./Screens/RegistrationScreen";
 import LoginScreen from "./Screens/LoginScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+const MainStack = createStackNavigator();
 
 export default function App() {
 	return (
-		<ImageBackground
-			source={require("./pics/PhotoBG.jpg")}
-			style={styles.imageBackground}>
-			{/* <RegistrationScreen /> */}
-			<LoginScreen/>
-		</ImageBackground>
+		<NavigationContainer>
+			<MainStack.Navigator>
+				<MainStack.Screen
+					name="Registration"
+					component={RegistrationScreen}
+					options={{ headerShown: false }}
+				/>
+				<MainStack.Screen
+					name="Login"
+					component={LoginScreen}
+					options={{ headerShown: false }}
+				/>
+			</MainStack.Navigator>
+		</NavigationContainer>
 	);
 }
-
-const styles = StyleSheet.create({
-	imageBackground: {
-		flex: 1,
-		resizeMode: "cover",
-		justifyContent: "center",
-		alignItems: "center",
-	},
-});
