@@ -19,6 +19,7 @@ const LoginScreen = ({ navigation }) => {
 
 	const onLogin = () => {
 		console.log(email, password);
+		navigation.navigate("Home");
 	};
 
 	const toggleSecurityText = () => {

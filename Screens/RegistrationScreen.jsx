@@ -21,6 +21,7 @@ const RegistrationScreen = ({ navigation }) => {
 
 	const onRegistr = () => {
 		console.log(login, email, password);
+		navigation.navigate("Home");
 	};
 
 	const toggleSecurityText = () => {

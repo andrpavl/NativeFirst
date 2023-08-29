@@ -5,13 +5,20 @@ import RegistrationScreen from "./Screens/RegistrationScreen";
 import LoginScreen from "./Screens/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { HomeScreen } from "./Screens/Home";
+import { Button } from "react-native";
+import { TouchableOpacity } from "react-native";
+import { Image } from "react-native";
+import { CreatePostsScreen } from "./Screens/CreatePostsScreen";
+import { TouchableOpacityBase } from "react-native";
+import LogOutIcon from "./components/svgIcons/LogOutIcon";
 
 const MainStack = createStackNavigator();
 
 export default function App() {
 	return (
 		<NavigationContainer>
-			<MainStack.Navigator>
+			<MainStack.Navigator initialRouteName="Home">
 				<MainStack.Screen
 					name="Registration"
 					component={RegistrationScreen}
@@ -21,6 +28,18 @@ export default function App() {
 					name="Login"
 					component={LoginScreen}
 					options={{ headerShown: false }}
+				/>
+				<MainStack.Screen
+					name="Home"
+					component={HomeScreen}
+					options={{
+						headerShown: false,
+						headerRight: () => (
+							<TouchableOpacity>
+								<LogOutIcon style={{ marginRight: 10 }} />
+							</TouchableOpacity>
+						),
+					}}
 				/>
 			</MainStack.Navigator>
 		</NavigationContainer>
