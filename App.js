@@ -8,9 +8,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "./Screens/Home";
 import { Button } from "react-native";
 import { TouchableOpacity } from "react-native";
-import { Image } from "react-native";
-import { CreatePostsScreen } from "./Screens/CreatePostsScreen";
-import { TouchableOpacityBase } from "react-native";
 import LogOutIcon from "./components/svgIcons/LogOutIcon";
 
 const MainStack = createStackNavigator();
@@ -18,7 +15,7 @@ const MainStack = createStackNavigator();
 export default function App() {
 	return (
 		<NavigationContainer>
-			<MainStack.Navigator initialRouteName="Home">
+			<MainStack.Navigator initialRouteName="Login">
 				<MainStack.Screen
 					name="Registration"
 					component={RegistrationScreen}
