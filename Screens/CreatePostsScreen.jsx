@@ -3,6 +3,7 @@ import {
 	StyleSheet,
 	TouchableWithoutFeedback,
 	Keyboard,
+	Button,
 } from "react-native";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import LocationIcon from "../components/svgIcons/LocationIcon";
@@ -13,6 +14,7 @@ import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import TrashIcon from "../components/svgIcons/TrashIcon";
 
 export const CreatePostsScreen = () => {
 	const [location, setLocation] = useState(null);
@@ -20,6 +22,8 @@ export const CreatePostsScreen = () => {
 	const [camera, setCamera] = useState(null);
 	const [image, setImage] = useState(null);
 	const [imageTitle, setImageTitle] = useState("");
+	const [dataEnabled, setDataEnabled] = useState(false);
+	const [isKeyboardShown, setIsKeyboardShown] = useState(false);
 
 	const navigation = useNavigation();
 
@@ -37,9 +41,14 @@ export const CreatePostsScreen = () => {
 			await MediaLibrary.requestPermissionsAsync();
 
 			setHasPermission(status === "granted");
-			
 		})();
-	}, []);
+
+		if (location && image && imageTitle) {
+			setDataEnabled(true);
+		} else {
+			setDataEnabled(false);
+		}
+	}, [location, image, imageTitle]);
 
 	if (hasPermission === null) {
 		return <View />;
@@ -61,7 +70,6 @@ export const CreatePostsScreen = () => {
 				longitude: location.coords.longitude,
 			};
 			setLocation(coords);
-			
 		})();
 
 		const newPost = {
@@ -69,11 +77,21 @@ export const CreatePostsScreen = () => {
 			image,
 			imageTitle,
 		};
-		console.log(newPost);
 
 		navigation.navigate("PostsScreen", { newPost });
+
+		setLocation("");
+		setImage(null);
+		setImageTitle("");
+		setDataEnabled(false);
 	};
 
+	const handleDelete = () => {
+		setLocation("");
+		setImage(null);
+		setImageTitle("");
+		setDataEnabled(false); };
+	
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 			<KeyboardAvoidingView
@@ -124,22 +142,54 @@ export const CreatePostsScreen = () => {
 						}}
 						value={imageTitle}
 						onChangeText={setImageTitle}
+						onFocus={() => {
+							setIsKeyboardShown(true);
+						}}
+						onBlur={() => {
+							setIsKeyboardShown(false);
+						}}
 					/>
 					<View>
 						<LocationIcon style={styles.icon} />
 						<TextInput
 							placeholder="Місцевість..."
-							value={JSON.stringify(location)}
+							value={location}
+							onChangeText={(text) => {
+								setLocation(text);
+							}}
 							style={{
 								...styles.font,
 								...styles.inputs,
 								paddingLeft: 30,
 								color: "black",
 							}}
+							onFocus={() => {
+								setIsKeyboardShown(true);
+							}}
+							onBlur={() => {
+								setIsKeyboardShown(false);
+							}}
 						/>
 					</View>
-					<TouchableOpacity style={styles.publish} onPress={publishPost}>
-						<Text style={styles.btnText}>Опублікувати</Text>
+					<TouchableOpacity
+						onPress={publishPost}
+						style={{
+							...styles.publish,
+							backgroundColor: dataEnabled ? "#FF6C00" : "#F6F6F6",
+						}}
+						disabled={!dataEnabled}>
+						<Text
+							style={{
+								...styles.btnText,
+								color: dataEnabled ? "#FFFFFF" : "#BDBDBD",
+							}}>
+							Опублікувати
+						</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={{ alignSelf: "center", marginTop: 120 }}
+						onPress={handleDelete}>
+						<TrashIcon />
 					</TouchableOpacity>
 				</View>
 			</KeyboardAvoidingView>
@@ -180,14 +230,12 @@ const styles = StyleSheet.create({
 	publish: {
 		height: 51,
 		width: "100%",
-		backgroundColor: "#F6F6F6",
 		borderRadius: 25,
 		marginTop: 32,
 	},
 	btnText: {
 		fontSize: 16,
 		fontWeight: 400,
-		color: "#BDBDBD",
 		padding: 16,
 		alignSelf: "center",
 	},

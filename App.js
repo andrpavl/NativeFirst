@@ -6,7 +6,6 @@ import LoginScreen from "./Screens/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "./Screens/Home";
-import { Button } from "react-native";
 import { TouchableOpacity } from "react-native";
 import LogOutIcon from "./components/svgIcons/LogOutIcon";
 

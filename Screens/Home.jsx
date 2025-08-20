@@ -16,7 +16,7 @@ export const HomeScreen = () => {
 	const navigation = useNavigation();
 	return (
 		<Tabs.Navigator
-			initialRouteName="PostsScreen"
+			initialRouteName="CreatePostsScreen"
 			screenOptions={({ route }) => ({
 				tabBarIcon: ({ focused }) => {
 					if (route.name === "PostsScreen") {
@@ -64,7 +64,12 @@ export const HomeScreen = () => {
 						fontSize: 17,
 					},
 					headerTitleAlign: "center",
-					headerLeft: () => <ArrowBack style={{ marginLeft: 16 }} />,
+					headerLeft: () => (
+						<ArrowBack
+							style={{ marginLeft: 16 }}
+							onPress={() => navigation.goBack()}
+						/>
+					),
 				}}
 			/>
 			<Tabs.Screen
